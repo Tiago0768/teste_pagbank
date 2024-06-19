@@ -1,5 +1,6 @@
 import os, warnings, time
 import sqlite3 as sql
+from tabulate import tabulate
 
 user_system = os.getlogin()
 
@@ -28,7 +29,7 @@ def desafio_3():
 
     resposta_letra_b = f"""
     SELECT 
-    COUNT(DISTINCT evento_nome) as total_eventos_sabado
+    COUNT(DISTINCT evento_nome) as eventos
     FROM 
         ANALITICO_PAGSHOW
     WHERE 
