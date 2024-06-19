@@ -115,7 +115,11 @@ def desafio_3():
     resultado_letra_b = cursor_sd.fetchall()
     headers_letra_b = [description[0] for description in cursor_sd.description]
 
+    print("")
+    print("resposta opção a")
     resposta_a = print(tabulate(resultado_letra_a, headers=headers_letra_a, tablefmt="grid"))
+    print("")
+    print("resposta opção b")
     resposta_b = print(tabulate(resultado_letra_b, headers=headers_letra_b, tablefmt="grid"))
 
     return resposta_a, resposta_b
