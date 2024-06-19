@@ -48,12 +48,14 @@ def analitico_pagshow():
 
     con_sd.commit()
 
+    #trazendo a coluna dia (ainda sem formatacao)
     cursor_sd.execute("""
     ALTER TABLE ANALITICO_PAGSHOW
     ADD COLUMN dia INTEGER;
     """)
     con_sd.commit()
 
+    #update com o tratamento do campo dia
     cursor_sd.execute("""
     UPDATE ANALITICO_PAGSHOW
         SET dia = CAST((CAST(substr(evento_inicio, 1, 10) AS INTEGER) - 1) % 7 AS INTEGER)
@@ -65,15 +67,12 @@ def analitico_pagshow():
     cursor_sd.execute(query_analitica)
     resultado_analitica = cursor_sd.fetchall()
 
-    print(resultado_analitica)
-
     return resultado_analitica
 
 def desafio_3():
 
     ordenacao_entrada = '>'
-    dia_evento = 6
-
+    
     resposta_letra_a = f"""
     SELECT 
     evento_nome, 
@@ -85,6 +84,8 @@ def desafio_3():
     GROUP BY 
         evento_nome
     """
+
+    dia_evento = 6
 
     resposta_letra_b = f"""
     SELECT 
@@ -120,4 +121,3 @@ def desafio_3():
     return resposta_a, resposta_b
 
 analitico_pagshow()
-desafio_3()
