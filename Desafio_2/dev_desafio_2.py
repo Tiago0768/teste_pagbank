@@ -107,6 +107,7 @@ def desafio_2():
     ORDER BY
         category {ascendente},
         score {decrescente}
+    LIMIT 3
     """
 
     #execução query resposta desafio 2
