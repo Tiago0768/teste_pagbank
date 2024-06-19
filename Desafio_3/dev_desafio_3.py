@@ -1,6 +1,5 @@
 import os, warnings, time
 import sqlite3 as sql
-from dev_pagshow_analitico import analitico_pagshow
 
 user_system = os.getlogin()
 
@@ -12,9 +11,38 @@ cursor_sd = con_sd.cursor()
 
 def desafio_3():
 
-    #TABELA bruta para etl da pagshow
-    analitico_pagshow_desenv = analitico_pagshow()
+    ordenacao_entrada = '>'
+    dia_evento = '6'
 
-    print(analitico_pagshow_desenv)
+    resposta_letra_a = f"""
+    SELECT 
+    evento_nome, 
+    COUNT(*) as total_pos_horario
+    FROM 
+        ANALITICO_PAGSHOW
+    WHERE 
+        cliente_entrada {ordenacao_entrada} evento_inicio
+    GROUP BY 
+        evento_nome
+    """
 
-    return analitico_pagshow_desenv
+    resposta_letra_b = f"""
+    SELECT 
+    COUNT(DISTINCT evento_nome) as total_eventos_sabado
+    FROM 
+        ANALITICO_PAGSHOW
+    WHERE 
+        strftime('%w', evento_inicio) = {dia_evento}"""
+
+    #letra a
+    cursor_sd.execute(resposta_letra_a)
+    resultado_letra_a = cursor_sd.fetchall()
+
+    #letra b
+    cursor_sd.execute(resposta_letra_b)
+    resultado_letra_b = cursor_sd.fetchall()
+
+    print(resultado_letra_a)
+    print(resultado_letra_b)
+
+desafio_3()
