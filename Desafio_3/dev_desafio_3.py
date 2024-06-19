@@ -35,15 +35,17 @@ def desafio_3():
     WHERE 
         strftime('%w', evento_inicio) = {dia_evento}"""
 
-    #letra a
+    # letra a
     cursor_sd.execute(resposta_letra_a)
     resultado_letra_a = cursor_sd.fetchall()
+    headers_letra_a = [descricao[0] for descricao in cursor_sd.descricao]
 
-    #letra b
+    # letra b
     cursor_sd.execute(resposta_letra_b)
     resultado_letra_b = cursor_sd.fetchall()
+    headers_letra_b = [descricao[0] for descricao in cursor_sd.descricao]
 
-    print(resultado_letra_a)
-    print(resultado_letra_b)
+    resposta_a = print(tabulate(resultado_letra_a, headers=headers_letra_a, tablefmt="grid"))
+    resposta_b = print(tabulate(resultado_letra_b, headers=headers_letra_b, tablefmt="grid"))
 
-desafio_3()
+    return resposta_a, resposta_b
