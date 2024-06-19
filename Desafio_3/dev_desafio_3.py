@@ -109,6 +109,7 @@ def desafio_3():
     headers_letra_a = [description[0] for description in cursor_sd.description]
 
     # letra b
+    # cursor.description acessa informações das colunas da consulta.
     cursor_sd.execute(resposta_letra_b)
     resultado_letra_b = cursor_sd.fetchall()
     headers_letra_b = [description[0] for description in cursor_sd.description]
