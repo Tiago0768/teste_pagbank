@@ -84,7 +84,7 @@ def desafio_2():
         name AS nome,
         college_name,
         score,
-        ROW_NUMBER() #
+        ROW_NUMBER()
             OVER (
                 PARTITION BY 
                 category 
