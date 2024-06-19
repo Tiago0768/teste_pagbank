@@ -38,28 +38,41 @@ def analitico_pagshow():
         ('Oceano', '09/04/2023 22:00', 'Djavan', 'Suellen', '777.777.777-77', '5521991012434', '09/04/2023 23:06')
     ]
 
-
     insert_students = f"""INSERT INTO ANALITICO_PAGSHOW (evento_nome, evento_inicio, artista_nome, cliente_nome, cliente_cpf, cliente_telefone, cliente_entrada) VALUES (?, ?, ?, ?, ?, ?, ?)
     """
-
-    query_analitica = """select * from ANALITICO_PAGSHOW"""
 
     #execução tabela students
     cursor_sd.execute(drop_table_students)
     cursor_sd.execute(create_students)
     cursor_sd.executemany(insert_students, valores_tabela_students)
 
+    con_sd.commit()
+
+    cursor_sd.execute("""
+    ALTER TABLE ANALITICO_PAGSHOW
+    ADD COLUMN dia INTEGER;
+    """)
+    con_sd.commit()
+
+    cursor_sd.execute("""
+    UPDATE ANALITICO_PAGSHOW
+        SET dia = CAST((CAST(substr(evento_inicio, 1, 10) AS INTEGER) - 1) % 7 AS INTEGER)
+    """)
+    con_sd.commit()
+
+    query_analitica = """select * from ANALITICO_PAGSHOW"""
+
     cursor_sd.execute(query_analitica)
     resultado_analitica = cursor_sd.fetchall()
 
-    con_sd.commit()
+    print(resultado_analitica)
 
     return resultado_analitica
 
 def desafio_3():
 
     ordenacao_entrada = '>'
-    dia_evento = '6'
+    dia_evento = 6
 
     resposta_letra_a = f"""
     SELECT 
@@ -75,11 +88,20 @@ def desafio_3():
 
     resposta_letra_b = f"""
     SELECT 
-    COUNT(DISTINCT evento_nome) as eventos
+    COUNT(DISTINCT evento_nome) as eventos,
+    CASE dia
+        WHEN 0 THEN 'Domingo'
+            WHEN 1 THEN 'Segunda-feira'
+                WHEN 2 THEN 'Terça-feira'
+                    WHEN 3 THEN 'Quarta-feira'
+                        WHEN 4 THEN 'Quinta-feira'
+                            WHEN 5 THEN 'Sexta-feira'
+                                WHEN 6 THEN 'Sábado'
+    END as dia_semana
     FROM 
         ANALITICO_PAGSHOW
     WHERE 
-        strftime('%w', evento_inicio) = {dia_evento}"""
+        dia = {dia_evento}"""
 
     # letra a
     cursor_sd.execute(resposta_letra_a)
@@ -96,4 +118,5 @@ def desafio_3():
 
     return resposta_a, resposta_b
 
+analitico_pagshow()
 desafio_3()
