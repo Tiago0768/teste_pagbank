@@ -84,7 +84,7 @@ def desafio_2():
         name AS nome,
         college_name,
         score,
-        ROW_NUMBER() 
+        ROW_NUMBER() #
             OVER (
                 PARTITION BY 
                 category 
@@ -116,7 +116,8 @@ def desafio_2():
     if vencedores:
         headers = ["category", "student_id", "Nome", "college_name", "score"]
         tabela_vencedores = tabulate(vencedores, headers=headers, tablefmt="pretty")
-        print("O top 3 vencedores são:")
+        print("O top 3 vencedores são: ")
+        print("")
         print(tabela_vencedores)
     else:
         print("Não foram encontrados vencedores.")
